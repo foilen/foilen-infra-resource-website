@@ -25,12 +25,12 @@ import com.google.common.collect.ComparisonChain;
  * <li>Application: (required / many) POINTS_TO - The applications that are serving that web site. (are the end points ; not where the web site is installed)</li>
  * <li>WebsiteCertificate: (optional / 1) USES - When using HTTPS needs one certificate.</li>
  * <li>Machine: (optional / many) INSTALLED_ON - The machines where to install that web site</li>
- * <li>Machine: (optional / many) INSTALLED_ON_NO_DNS - The machines where to install that application, but won't have a DnsPointer} on them</li>
+ * <li>Machine: (optional / many) INSTALLED_ON_NO_DNS - The machines where to install that application, but won't have a DnsPointer on them</li>
  * </ul>
  *
  * Manages:
  * <ul>
- * <li>DnsPointer: (optional / many) POINTS_TO - Some domain names that will automatically point to the Machine}s on which it is INSTALLED_ON</li>
+ * <li>DnsPointer: (optional / many) POINTS_TO - Some domain names that will automatically point to the Machines on which it is INSTALLED_ON</li>
  * </ul>
  */
 public class Website extends AbstractIPResource implements Comparable<Website> {
