@@ -9,10 +9,7 @@
  */
 package com.foilen.infra.resource.website;
 
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.foilen.infra.plugin.v1.core.context.ChangesContext;
@@ -24,12 +21,6 @@ import com.foilen.infra.plugin.v1.model.resource.LinkTypeConstants;
 import com.foilen.infra.resource.dns.DnsPointer;
 import com.foilen.infra.resource.machine.Machine;
 import com.foilen.infra.resource.webcertificate.WebsiteCertificate;
-import com.foilen.infra.resource.webcertificate.helper.CertificateHelper;
-import com.foilen.smalltools.crypt.spongycastle.asymmetric.AsymmetricKeys;
-import com.foilen.smalltools.crypt.spongycastle.asymmetric.RSACrypt;
-import com.foilen.smalltools.crypt.spongycastle.cert.CertificateDetails;
-import com.foilen.smalltools.crypt.spongycastle.cert.RSACertificate;
-import com.foilen.smalltools.tools.DateTools;
 
 public class WebsiteUpdateHandler extends AbstractCommonMethodUpdateEventHandler<Website> {
 
@@ -53,39 +44,6 @@ public class WebsiteUpdateHandler extends AbstractCommonMethodUpdateEventHandler
             context.getManagedResources().add(dnsPointer);
         }
 
-        // Create and manage : WebsiteCertificate
-        if (resource.isHttps()) {
-            List<WebsiteCertificate> managedWebsiteCertificates = resourceService.linkFindAllByFromResourceAndLinkTypeAndToResourceClass(resource, LinkTypeConstants.MANAGES, WebsiteCertificate.class);
-            for (String domainName : resource.getDomainNames()) {
-                // Find the one already managed
-                WebsiteCertificate websiteCertificate = null;
-                Optional<WebsiteCertificate> websiteCertificateOptional = managedWebsiteCertificates.stream().filter(it -> it.getDomainNames().contains(domainName)).findAny();
-                if (websiteCertificateOptional.isPresent()) {
-                    websiteCertificate = websiteCertificateOptional.get();
-                } else {
-                    // Find that already exists
-                    List<WebsiteCertificate> websiteCertificates = resourceService.resourceFindAll(resourceService.createResourceQuery(WebsiteCertificate.class) //
-                            .propertyContains(WebsiteCertificate.PROPERTY_DOMAIN_NAMES, Arrays.asList(domainName)));
-                    if (websiteCertificates.isEmpty()) {
-                        // Create one
-                        websiteCertificate = new WebsiteCertificate();
-
-                        AsymmetricKeys keys = RSACrypt.RSA_CRYPT.generateKeyPair(4096);
-                        RSACertificate rsaCertificate = new RSACertificate(keys).selfSign( //
-                                new CertificateDetails().setCommonName(domainName) //
-                                        .addSanDns(domainName) //
-                                        .setEndDate(DateTools.addDate(Calendar.MONTH, 1)));
-                        CertificateHelper.toWebsiteCertificate(null, rsaCertificate, websiteCertificate);
-
-                        changes.resourceAdd(websiteCertificate);
-                    } else {
-                        websiteCertificate = websiteCertificates.get(0);
-                    }
-                }
-
-                context.getManagedResources().add(websiteCertificate);
-            }
-        }
     }
 
     @Override
