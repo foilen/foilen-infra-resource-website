@@ -26,6 +26,7 @@ import com.foilen.infra.plugin.v1.model.base.IPApplicationDefinitionAssetsBundle
 import com.foilen.infra.plugin.v1.model.base.IPApplicationDefinitionPortRedirect;
 import com.foilen.infra.plugin.v1.model.haproxy.HaProxyConfig;
 import com.foilen.infra.plugin.v1.model.haproxy.HaProxyConfigPortHttp;
+import com.foilen.infra.plugin.v1.model.haproxy.HaProxyConfigPortHttpService;
 import com.foilen.infra.plugin.v1.model.haproxy.HaProxyConfigPortHttps;
 import com.foilen.infra.plugin.v1.model.outputter.haproxy.HaProxyConfigOutput;
 import com.foilen.infra.plugin.v1.model.resource.LinkTypeConstants;
@@ -63,7 +64,14 @@ public class MachineHaProxyUpdateHandler extends AbstractCommonMethodUpdateEvent
                     applicationDefinition.addPortRedirect(localPort, remoteMachine.getName(), remoteApplicationName, website.getApplicationEndpoint());
                 }
             }
-            configHttp.addService(website.getDomainNames(), (Tuple2<String, Integer>[]) endpointHostPorts.toArray());
+            website.getDomainNames().forEach(hostname -> {
+                HaProxyConfigPortHttpService config = new HaProxyConfigPortHttpService();
+                for (Tuple2<String, Integer> endpointHostPort : endpointHostPorts) {
+                    config.getEndpointHostPorts().add(endpointHostPort.getA() + ":" + endpointHostPort.getB());
+                }
+
+                configHttp.getServiceByHostname().put(hostname, config);
+            });
         } else {
             logger.debug("[{}] {} is installed locally. Will point locally only on applications {}", machineName, website, installedLocallyApplicationNames);
 
