@@ -147,6 +147,7 @@ public class MachineHaProxyUpdateHandler extends AbstractCommonMethodUpdateEvent
             HaProxyConfig haProxyConfig = new HaProxyConfig();
             haProxyConfig.setTimeoutClientMs(10L * 60L * 1000L); // 10 minutes
             haProxyConfig.setTimeoutServerMs(10L * 60L * 1000L); // 10 minutes
+            haProxyConfig.setTimeoutTunnelMs(10L * 60L * 1000L); // 10 minutes
             AtomicInteger nextLocalPort = new AtomicInteger(10000);
             for (Website website : websites) {
                 logger.info("[{}] Processing {}", machineName, website);
