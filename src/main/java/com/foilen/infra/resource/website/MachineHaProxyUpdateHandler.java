@@ -188,12 +188,15 @@ public class MachineHaProxyUpdateHandler extends AbstractCommonMethodUpdateEvent
                         StringBuilder certContent = new StringBuilder();
                         if (websiteCertificate.getCertificate() != null) {
                             certContent.append(websiteCertificate.getCertificate());
+                            certContent.append("\n");
                         }
                         if (websiteCertificate.getCaCertificate() != null) {
                             certContent.append(websiteCertificate.getCaCertificate());
+                            certContent.append("\n");
                         }
                         if (websiteCertificate.getPrivateKey() != null) {
                             certContent.append(websiteCertificate.getPrivateKey());
+                            certContent.append("\n");
                         }
                         for (String domainName : website.getDomainNames()) {
                             logger.debug("[{}] Installing certificate for {}", machineName, domainName);
