@@ -21,7 +21,7 @@ public class FoilenWebsitePluginDefinitionProvider implements IPPluginDefinition
     public IPPluginDefinitionV1 getIPPluginDefinition() {
         IPPluginDefinitionV1 pluginDefinitionV1 = new IPPluginDefinitionV1("Foilen", "Website", "To manage websites", "1.0.0");
 
-        pluginDefinitionV1.addCustomResource(Website.class, "Website", //
+        pluginDefinitionV1.addCustomResource(Website.class, Website.RESOURCE_TYPE, //
                 Arrays.asList( //
                         Website.PROPERTY_NAME //
                 ), //

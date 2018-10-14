@@ -35,6 +35,8 @@ import com.google.common.collect.ComparisonChain;
  */
 public class Website extends AbstractIPResource implements Comparable<Website> {
 
+    public static final String RESOURCE_TYPE = "Website";
+
     public static final String LINK_TYPE_INSTALLED_ON_NO_DNS = "INSTALLED_ON_NO_DNS";
 
     public static final String PROPERTY_NAME = "name";
