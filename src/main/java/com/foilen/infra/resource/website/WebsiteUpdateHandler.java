@@ -24,6 +24,10 @@ import com.foilen.infra.resource.webcertificate.WebsiteCertificate;
 
 public class WebsiteUpdateHandler extends AbstractCommonMethodUpdateEventHandler<Website> {
 
+    public void checkFarLinkChanged(CommonServicesContext services, ChangesContext changes, Machine resource) {
+        // NO-OP
+    }
+
     @Override
     protected void commonHandlerExecute(CommonServicesContext services, ChangesContext changes, CommonMethodUpdateEventHandlerContext<Website> context) {
 
