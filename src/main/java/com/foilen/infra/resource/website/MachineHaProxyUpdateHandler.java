@@ -86,11 +86,6 @@ public class MachineHaProxyUpdateHandler extends AbstractCommonMethodUpdateEvent
     }
 
     @Override
-    public void checkFarLinkChanged(CommonServicesContext services, ChangesContext changes, Machine resource) {
-        // NO-OP
-    }
-
-    @Override
     protected void commonHandlerExecute(CommonServicesContext services, ChangesContext changes, CommonMethodUpdateEventHandlerContext<Machine> context) {
 
         IPResourceService resourceService = services.getResourceService();
